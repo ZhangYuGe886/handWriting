@@ -1,0 +1,34 @@
+<html>
+// flat手写实现
+// 思路：
+// 1.遍历元素
+// 2.判断元素是否为数组
+// 最好用Object.prototype.toString.call(arr) === '[object Array]'或者Array.isArray(arr)判断数组
+// 3.展开数组元素
+
+</html>
+<script>
+  const arr = [1, 2, 3, 4, [1, 2, 3, [1, 2, 3, [1, 2, 3]]], 5, "string", {
+    name: "弹铁蛋同学"
+  }];
+  // 普通遍历递归实现拍平数组
+  function flat1(arr) {
+    let arrResult = []
+    arr.forEach(item => {
+      if (Array.isArray(item)) {
+        arrResult = arrResult.concat(arguments.callee(item))
+      } else {
+        arrResult.push(item)
+      }
+    });
+    return arrResult
+  }
+  console.log('flat1', flat1(arr));
+  // 使用reduce拍平数组
+  function flat2(arr){
+    return arr.reduce((pre,cur)=>{
+      return pre.concat(Array.isArray(cur) ? flat2(cur) : cur);
+    },[])
+  }
+  console.log('flat2', flat2(arr));
+</script>
